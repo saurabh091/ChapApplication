@@ -36,9 +36,9 @@ class LoginViewController: UIViewController {
     
     let containerStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.alignment = .fill
-        stackView.distribution = .fillProportionally
         stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -51,6 +51,15 @@ class LoginViewController: UIViewController {
         containerStackView.addArrangedSubview(nameTextField)
         containerStackView.addArrangedSubview(emailTextField)
         containerStackView.addArrangedSubview(passwordTextField)
+        
+        setupViewConstraints()
+    }
+    
+    func setupViewConstraints() {
+        containerStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        containerStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        containerStackView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -20)
+        containerStackView.heightAnchor.constraint(equalToConstant: 150)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
