@@ -10,3 +10,4 @@ import Foundation
 
 let TextField_Left_Padding         = 10.0   // Login textfield left padding
 let TextField_Corner_Radius        = 8.0    // Login texfield border corner radius
+let Keyboard_Height                = -50    // Login texfield border corner radius

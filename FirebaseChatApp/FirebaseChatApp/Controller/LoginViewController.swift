@@ -43,6 +43,7 @@ class LoginViewController: UIViewController {
         tf.backgroundColor = .white
         tf.leftPadding(marginSize: TextField_Left_Padding)
         tf.setBorder(width: 1.0, color: .gray)
+        tf.returnKeyType = .next
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
     }()
@@ -53,6 +54,7 @@ class LoginViewController: UIViewController {
         tf.backgroundColor = .white
         tf.leftPadding(marginSize: TextField_Left_Padding)
         tf.setBorder(width: 1.0, color: .gray)
+        tf.returnKeyType = .next
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
     }()
@@ -64,6 +66,9 @@ class LoginViewController: UIViewController {
         tf.layer.masksToBounds = true
         tf.leftPadding(marginSize: TextField_Left_Padding)
         tf.setBorder(width: 1.0, color: .gray)
+        tf.returnKeyType = .done
+        tf.autocorrectionType = .no
+        tf.isSecureTextEntry = true
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
     }()
@@ -77,13 +82,32 @@ class LoginViewController: UIViewController {
         return stackView
     }()
     
+    let loginRegisterButton: UIButton = {
+        let button = UIButton()
+        button.layer.cornerRadius = 5.0
+        button.setTitle("Log In", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: UIFont.Weight(rawValue: 3))
+        button.backgroundColor = .white
+        button.setTitleColor(UIColor(r: 61, g: 91, b: 151), for: .normal)
+        button.setTitleColor(.black, for: .highlighted)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 61/255, green: 91/255, blue: 151/255, alpha: 1)
+        view.backgroundColor = UIColor(r: 61, g: 91, b: 151)
         
         view.addSubview(containerStackView)
         view.addSubview(segmentControl)
         view.addSubview(imageView)
+        view.addSubview(loginRegisterButton)
+        nameTextField.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        nameTextField.tag = 1
+        emailTextField.tag = 2
+        passwordTextField.tag = 3
         
         containerStackView.addArrangedSubview(nameTextField)
         containerStackView.addArrangedSubview(emailTextField)
@@ -94,8 +118,38 @@ class LoginViewController: UIViewController {
             self.nameTextField.roundCorners(corners: UIRectCorner(arrayLiteral: .topLeft, .topRight), radius: TextField_Corner_Radius)
             self.passwordTextField.roundCorners(corners: UIRectCorner(arrayLiteral: .bottomLeft, .bottomRight), radius: TextField_Corner_Radius)
         }
+        
+        changeLoginTabs(selectedIndex: 0)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        //        let keyBoardSize = ((notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue)
+        
+        UIView.animate(withDuration: 0.3) {
+            var frame = self.view.frame
+            frame.origin.y = CGFloat(Keyboard_Height)
+            self.view.frame = frame
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.view.frame.origin.y = 0
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    @objc private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
+        let index = sender.selectedSegmentIndex
+        changeLoginTabs(selectedIndex: index)
+    }
+}
+
+extension LoginViewController {
     func setupViewConstraints() {
         containerStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         containerStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
@@ -112,30 +166,54 @@ class LoginViewController: UIViewController {
         imageView.bottomAnchor.constraint(equalTo: segmentControl.topAnchor, constant: 0).isActive = true
         imageView.widthAnchor.constraint(equalTo: containerStackView.widthAnchor, multiplier: 0.5).isActive = true
         imageView.heightAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1.0).isActive = true
+        
+        loginRegisterButton.topAnchor.constraint(equalTo: containerStackView.bottomAnchor, constant: 10).isActive = true
+        loginRegisterButton.centerXAnchor.constraint(equalTo: containerStackView.centerXAnchor).isActive = true
+        loginRegisterButton.widthAnchor.constraint(equalTo: containerStackView.widthAnchor, constant: 1.0).isActive = true
+        loginRegisterButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
-    @objc private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
-        let index = sender.selectedSegmentIndex
-        changeLoginTabs(selectedIndex: index)
-    }
-}
-extension LoginViewController {
     func changeLoginTabs(selectedIndex: Int) {
         if selectedIndex == 0 {
-            self.emailTextField.isHidden = true
+            emailTextField.isHidden = true
+            loginRegisterButton.setTitle("Log In", for: .normal)
+            passwordTextField.tag = 2
+            emailTextField.tag = 10
             UIView.animate(withDuration: 0.5) {
                 self.heightAnchorForContainer.constant = 100
             }
         }else {
-            self.emailTextField.isHidden = false
+            emailTextField.isHidden = false
+            loginRegisterButton.setTitle("Register", for: .normal)
+            passwordTextField.tag = 3
+            emailTextField.tag = 2
             UIView.animate(withDuration: 0.5) {
                 self.heightAnchorForContainer.constant = 150
             }
         }
+    }
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {    //delegate method
+        
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {  //delegate method
+        return true
+    }
+    
+    // MARK: - Search Method
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        let nextTag = textField.tag + 1
+        
+        if let nextResponder = textField.superview?.viewWithTag(nextTag) {
+            nextResponder.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        
+        return true
     }
 }
 
