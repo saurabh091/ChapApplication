@@ -13,6 +13,9 @@
 		C24D2CDE22E81DEA00451B8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C24D2CDD22E81DEA00451B8B /* Assets.xcassets */; };
 		C24D2CE122E81DEA00451B8B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C24D2CDF22E81DEA00451B8B /* LaunchScreen.storyboard */; };
 		C24D2CEA22E8892B00451B8B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24D2CE922E8892B00451B8B /* LoginViewController.swift */; };
+		C2EE024422EAD49C0004EAC8 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EE024322EAD49C0004EAC8 /* Constant.swift */; };
+		C2EE024622EAE28B0004EAC8 /* UITextField+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EE024522EAE28B0004EAC8 /* UITextField+Helpers.swift */; };
+		C2EE024822EAE3490004EAC8 /* UIColor+Mix.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EE024722EAE3490004EAC8 /* UIColor+Mix.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		C24D2CE022E81DEA00451B8B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C24D2CE222E81DEA00451B8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C24D2CE922E8892B00451B8B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		C2EE024322EAD49C0004EAC8 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		C2EE024522EAE28B0004EAC8 /* UITextField+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Helpers.swift"; sourceTree = "<group>"; };
+		C2EE024722EAE3490004EAC8 /* UIColor+Mix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Mix.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,7 @@
 		C24D2CD522E81DE500451B8B /* FirebaseChatApp */ = {
 			isa = PBXGroup;
 			children = (
+				C2EE024222EAD4800004EAC8 /* Helpers */,
 				C24D2CE822E888B800451B8B /* Controller */,
 				C24D2CD622E81DE500451B8B /* AppDelegate.swift */,
 				C24D2CD822E81DE500451B8B /* ViewController.swift */,
@@ -73,6 +80,16 @@
 				C24D2CE922E8892B00451B8B /* LoginViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		C2EE024222EAD4800004EAC8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C2EE024322EAD49C0004EAC8 /* Constant.swift */,
+				C2EE024522EAE28B0004EAC8 /* UITextField+Helpers.swift */,
+				C2EE024722EAE3490004EAC8 /* UIColor+Mix.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,9 +163,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2EE024822EAE3490004EAC8 /* UIColor+Mix.swift in Sources */,
 				C24D2CEA22E8892B00451B8B /* LoginViewController.swift in Sources */,
 				C24D2CD922E81DE500451B8B /* ViewController.swift in Sources */,
 				C24D2CD722E81DE500451B8B /* AppDelegate.swift in Sources */,
+				C2EE024622EAE28B0004EAC8 /* UITextField+Helpers.swift in Sources */,
+				C2EE024422EAD49C0004EAC8 /* Constant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
