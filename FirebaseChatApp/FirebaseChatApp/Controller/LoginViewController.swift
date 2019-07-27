@@ -11,7 +11,7 @@ import Firebase
 
 class LoginViewController: UIViewController {
     
-    var ref: DatabaseReference!
+    let db = Firestore.firestore()
     var heightAnchorForContainer: NSLayoutConstraint!
     
     let imageView: UIImageView = {
@@ -45,6 +45,8 @@ class LoginViewController: UIViewController {
         tf.backgroundColor = .white
         tf.leftPadding(marginSize: TextField_Left_Padding)
         tf.setBorder(width: 1.0, color: .gray)
+        tf.autocorrectionType = .no
+        tf.autocapitalizationType = .none
         tf.returnKeyType = .next
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
@@ -56,7 +58,9 @@ class LoginViewController: UIViewController {
         tf.backgroundColor = .white
         tf.leftPadding(marginSize: TextField_Left_Padding)
         tf.setBorder(width: 1.0, color: .gray)
+        tf.autocorrectionType = .no
         tf.returnKeyType = .next
+        tf.autocapitalizationType = .none
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
     }()
@@ -70,6 +74,7 @@ class LoginViewController: UIViewController {
         tf.setBorder(width: 1.0, color: .gray)
         tf.returnKeyType = .done
         tf.autocorrectionType = .no
+        tf.autocapitalizationType = .none
         tf.isSecureTextEntry = true
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
@@ -101,7 +106,6 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(r: 61, g: 91, b: 151)
         
-        ref = Database.database().reference(fromURL: "https://fir-chatapp-121f9.firebaseio.com")
         view.addSubview(containerStackView)
         view.addSubview(segmentControl)
         view.addSubview(imageView)
@@ -153,7 +157,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc func submitAction() {
-        guard let name = nameTextField.text ,let email = emailTextField.text, let password = passwordTextField.text else {
+        guard let name = nameTextField.text, let email = emailTextField.text, let password = passwordTextField.text else {
             print("Form is not valid")
             return
         }
@@ -168,20 +172,19 @@ class LoginViewController: UIViewController {
                 return
             }
             
-            // successfully authenticated user
-            let userRefrence = self.ref.child("ChatUsers").child(uid)
-            let values = ["name": name, "email": email, "password": password]
-            userRefrence.updateChildValues(values, withCompletionBlock: { (error, ref) in
-                guard let err = error else {
-                    print("Save successfully")
-                    return
+            var ref: DocumentReference? = nil
+            ref = self.db.collection("ChatUsers").addDocument(data: [
+                "email": email,
+                "name": name,
+                "password": password
+            ]) { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                } else {
+                    print("Document added with ID: \(ref!.documentID)")
                 }
-                
-                print(err)
-            })
+            }
         }
-        
-        
     }
 }
 
