@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginViewController: UIViewController {
     
+    var ref: DatabaseReference!
     var heightAnchorForContainer: NSLayoutConstraint!
     
     let imageView: UIImageView = {
@@ -82,7 +84,7 @@ class LoginViewController: UIViewController {
         return stackView
     }()
     
-    let loginRegisterButton: UIButton = {
+    lazy var loginRegisterButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 5.0
         button.setTitle("Log In", for: .normal)
@@ -91,6 +93,7 @@ class LoginViewController: UIViewController {
         button.setTitleColor(UIColor(r: 61, g: 91, b: 151), for: .normal)
         button.setTitleColor(.black, for: .highlighted)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(submitAction), for: .touchUpInside)
         return button
     }()
     
@@ -98,6 +101,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(r: 61, g: 91, b: 151)
         
+        ref = Database.database().reference(fromURL: "https://fir-chatapp-121f9.firebaseio.com")
         view.addSubview(containerStackView)
         view.addSubview(segmentControl)
         view.addSubview(imageView)
@@ -146,6 +150,38 @@ class LoginViewController: UIViewController {
     @objc private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
         let index = sender.selectedSegmentIndex
         changeLoginTabs(selectedIndex: index)
+    }
+    
+    @objc func submitAction() {
+        guard let name = nameTextField.text ,let email = emailTextField.text, let password = passwordTextField.text else {
+            print("Form is not valid")
+            return
+        }
+        
+        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+            if error != nil {
+                print(error as Any)
+            }
+            print(result as Any)
+            
+            guard let uid = result?.user.uid else {
+                return
+            }
+            
+            // successfully authenticated user
+            let userRefrence = self.ref.child("ChatUsers").child(uid)
+            let values = ["name": name, "email": email, "password": password]
+            userRefrence.updateChildValues(values, withCompletionBlock: { (error, ref) in
+                guard let err = error else {
+                    print("Save successfully")
+                    return
+                }
+                
+                print(err)
+            })
+        }
+        
+        
     }
 }
 

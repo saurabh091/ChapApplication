@@ -1,0 +1,8 @@
+target 'FirebaseChatApp' do
+use_frameworks!
+
+pod 'Firebase/Analytics'
+pod 'Firebase/Auth'
+pod 'Firebase/Database'
+
+end
