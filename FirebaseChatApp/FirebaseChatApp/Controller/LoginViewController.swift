@@ -157,6 +157,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc func submitAction() {
+        view.endEditing(true)
         guard let name = nameTextField.text, let email = emailTextField.text, let password = passwordTextField.text else {
             print("Form is not valid")
             return
@@ -182,6 +183,7 @@ class LoginViewController: UIViewController {
                     print("Error adding document: \(err)")
                 } else {
                     print("Document added with ID: \(ref!.documentID)")
+                    self.showUserList()
                 }
             }
         }
@@ -230,6 +232,10 @@ extension LoginViewController {
                 self.heightAnchorForContainer.constant = 150
             }
         }
+    }
+    
+    func showUserList() {
+        dismiss(animated: true, completion: nil)
     }
 }
 
