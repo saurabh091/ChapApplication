@@ -13,6 +13,7 @@ class LoginViewController: UIViewController {
     
     let db = Firestore.firestore()
     var heightAnchorForContainer: NSLayoutConstraint!
+    var isLoginAvailable = true
     
     let imageView: UIImageView = {
         let imgView = UIImageView()
@@ -157,35 +158,12 @@ class LoginViewController: UIViewController {
     }
     
     @objc func submitAction() {
+        showLoader()
         view.endEditing(true)
-        guard let name = nameTextField.text, let email = emailTextField.text, let password = passwordTextField.text else {
-            print("Form is not valid")
-            return
-        }
-        
-        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-            if error != nil {
-                print(error as Any)
-            }
-            print(result as Any)
-            
-            guard let uid = result?.user.uid else {
-                return
-            }
-            
-            var ref: DocumentReference? = nil
-            ref = self.db.collection("ChatUsers").addDocument(data: [
-                "email": email,
-                "name": name,
-                "password": password
-            ]) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                } else {
-                    print("Document added with ID: \(ref!.documentID)")
-                    self.showUserList()
-                }
-            }
+        if isLoginAvailable {
+            userLogin()
+        }else {
+            userRegistration()
         }
     }
 }
@@ -234,6 +212,56 @@ extension LoginViewController {
         }
     }
     
+    func userLogin() {
+        guard let email = emailTextField.text, let password = passwordTextField.text else {
+            print("Form is not valid")
+            return
+        }
+        
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] user, error in
+            guard let strongSelf = self else { return }
+            if error != nil {
+                print(error as Any)
+            }
+            print(user as Any)
+            strongSelf.hideLoader { strongSelf.showUserList() }
+        }
+    }
+    
+    func userRegistration() {
+        guard let name = nameTextField.text, let email = emailTextField.text, let password = passwordTextField.text else {
+            print("Form is not valid")
+            return
+        }
+        
+        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+            if error != nil {
+                print(error as Any)
+            }
+            print(result as Any)
+            
+            guard let uid = result?.user.uid else {
+                return
+            }
+            
+            var ref: DocumentReference? = nil
+            ref = self.db.collection("ChatUsers").addDocument(data: [
+                "email": email,
+                "name": name,
+                "password": password
+            ]) { err in
+                if let err = err {
+                    print("Error adding document: \(err)")
+                } else {
+                    print("Document added with ID: \(ref!.documentID)")
+                    self.hideLoader {
+                        self.showUserList()
+                    }
+                }
+            }
+        }
+    }
+    
     func showUserList() {
         dismiss(animated: true, completion: nil)
     }
@@ -251,13 +279,11 @@ extension LoginViewController: UITextFieldDelegate {
     // MARK: - Search Method
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         let nextTag = textField.tag + 1
-        
         if let nextResponder = textField.superview?.viewWithTag(nextTag) {
             nextResponder.becomeFirstResponder()
         } else {
             textField.resignFirstResponder()
         }
-        
         return true
     }
 }

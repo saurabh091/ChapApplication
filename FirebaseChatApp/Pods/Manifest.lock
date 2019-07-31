@@ -102,11 +102,13 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.8.0)
+  - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Firestore
+  - SVProgressHUD
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -126,6 +128,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - Protobuf
+    - SVProgressHUD
 
 SPEC CHECKSUMS:
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
@@ -144,7 +147,8 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: fb1748ee2ebe8ac617e88fcd83c369f1406d9b80
+PODFILE CHECKSUM: 7aa517e64cdab026e4c812d3d85f5b0a528594cf
 
 COCOAPODS: 1.7.4

@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SVProgressHUD
 
 class ViewController: UIViewController {
     
@@ -29,6 +30,7 @@ class ViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        showLoader()
         users.removeAll()
         readDbData()
     }
@@ -64,6 +66,7 @@ class ViewController: UIViewController {
                     self.users.append(document)
                 }
                 self.reloadTable()
+                self.hideLoader {}
             }
         }
     }
