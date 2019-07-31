@@ -24,7 +24,7 @@ class LoginViewController: UIViewController {
     }()
     
     let segmentControl: UISegmentedControl = {
-        let segment = UISegmentedControl(items: ["Login", "Registration"])
+        let segment = UISegmentedControl(items: [Login, Registration])
         segment.selectedSegmentIndex = 0
         segment.layer.cornerRadius = 8.0
         segment.backgroundColor = .black
@@ -42,7 +42,7 @@ class LoginViewController: UIViewController {
     
     let nameTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Name"
+        tf.placeholder = Name
         tf.backgroundColor = .white
         tf.leftPadding(marginSize: TextField_Left_Padding)
         tf.setBorder(width: 1.0, color: .gray)
@@ -55,7 +55,7 @@ class LoginViewController: UIViewController {
     
     let emailTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Email Address"
+        tf.placeholder = Email
         tf.backgroundColor = .white
         tf.leftPadding(marginSize: TextField_Left_Padding)
         tf.setBorder(width: 1.0, color: .gray)
@@ -68,7 +68,7 @@ class LoginViewController: UIViewController {
     
     let passwordTextField: UITextField = {
         let tf = UITextField()
-        tf.placeholder = "Password"
+        tf.placeholder = Password
         tf.backgroundColor = .white
         tf.layer.masksToBounds = true
         tf.leftPadding(marginSize: TextField_Left_Padding)
@@ -93,7 +93,7 @@ class LoginViewController: UIViewController {
     lazy var loginRegisterButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 5.0
-        button.setTitle("Log In", for: .normal)
+        button.setTitle(Login, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: UIFont.Weight(rawValue: 3))
         button.backgroundColor = .white
         button.setTitleColor(UIColor(r: 61, g: 91, b: 151), for: .normal)
@@ -195,25 +195,134 @@ extension LoginViewController {
     func changeLoginTabs(selectedIndex: Int) {
         if selectedIndex == 0 {
             emailTextField.isHidden = true
-            loginRegisterButton.setTitle("Log In", for: .normal)
+            loginRegisterButton.setTitle(Login, for: .normal)
             passwordTextField.tag = 2
             emailTextField.tag = 10
+            nameTextField.placeholder = Email
+            nameTextField.keyboardType = .emailAddress
+            clearTextfields()
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             UIView.animate(withDuration: 0.5) {
                 self.heightAnchorForContainer.constant = 100
             }
         }else {
             emailTextField.isHidden = false
-            loginRegisterButton.setTitle("Register", for: .normal)
+            loginRegisterButton.setTitle(Register, for: .normal)
             passwordTextField.tag = 3
             emailTextField.tag = 2
+            nameTextField.placeholder = Name
+            nameTextField.keyboardType = .default
+            clearTextfields()
             UIView.animate(withDuration: 0.5) {
                 self.heightAnchorForContainer.constant = 150
             }
         }
     }
     
+    func clearTextfields() {
+        nameTextField.text = ""
+        emailTextField.text = ""
+        passwordTextField.text = ""
+    }
+    
     func userLogin() {
-        guard let email = emailTextField.text, let password = passwordTextField.text else {
+        guard let email = nameTextField.text, let password = passwordTextField.text else {
             print("Form is not valid")
             return
         }
@@ -222,9 +331,11 @@ extension LoginViewController {
             guard let strongSelf = self else { return }
             if error != nil {
                 print(error as Any)
+                strongSelf.hideLoader {}
+            }else {
+                print(user as Any)
+                strongSelf.hideLoader { strongSelf.showUserList() }
             }
-            print(user as Any)
-            strongSelf.hideLoader { strongSelf.showUserList() }
         }
     }
     
@@ -237,25 +348,26 @@ extension LoginViewController {
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
             if error != nil {
                 print(error as Any)
-            }
-            print(result as Any)
-            
-            guard let uid = result?.user.uid else {
-                return
-            }
-            
-            var ref: DocumentReference? = nil
-            ref = self.db.collection("ChatUsers").addDocument(data: [
-                "email": email,
-                "name": name,
-                "password": password
-            ]) { err in
-                if let err = err {
-                    print("Error adding document: \(err)")
-                } else {
-                    print("Document added with ID: \(ref!.documentID)")
-                    self.hideLoader {
-                        self.showUserList()
+            }else {
+                print(result as Any)
+                
+                guard let uid = result?.user.uid else {
+                    return
+                }
+                
+                var ref: DocumentReference? = nil
+                ref = self.db.collection("ChatUsers").addDocument(data: [
+                    "email": email,
+                    "name": name,
+                    "password": password
+                ]) { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    } else {
+                        print("Document added with ID: \(ref!.documentID)")
+                        self.hideLoader {
+                            self.showUserList()
+                        }
                     }
                 }
             }
