@@ -14,6 +14,7 @@
 		C24D2CE122E81DEA00451B8B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C24D2CDF22E81DEA00451B8B /* LaunchScreen.storyboard */; };
 		C24D2CEA22E8892B00451B8B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C24D2CE922E8892B00451B8B /* LoginViewController.swift */; };
 		C26E4E3522F1B53800949756 /* UIviewController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C26E4E3422F1B53800949756 /* UIviewController+Helpers.swift */; };
+		C2AC613A22F4218A004254D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2AC613922F4218A004254D8 /* User.swift */; };
 		C2CE8AE022EC2BEA0070DAD7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C2CE8ADF22EC2BEA0070DAD7 /* GoogleService-Info.plist */; };
 		C2EE024422EAD49C0004EAC8 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EE024322EAD49C0004EAC8 /* Constant.swift */; };
 		C2EE024622EAE28B0004EAC8 /* UITextField+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2EE024522EAE28B0004EAC8 /* UITextField+Helpers.swift */; };
@@ -31,6 +32,7 @@
 		C24D2CE222E81DEA00451B8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C24D2CE922E8892B00451B8B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C26E4E3422F1B53800949756 /* UIviewController+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIviewController+Helpers.swift"; sourceTree = "<group>"; };
+		C2AC613922F4218A004254D8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C2CE8ADF22EC2BEA0070DAD7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C2EE024322EAD49C0004EAC8 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		C2EE024522EAE28B0004EAC8 /* UITextField+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Helpers.swift"; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 		C24D2CD522E81DE500451B8B /* FirebaseChatApp */ = {
 			isa = PBXGroup;
 			children = (
+				C2AC613822F42176004254D8 /* Model */,
 				C2CE8ADE22EC2BD00070DAD7 /* SupportingFiles */,
 				C2EE024222EAD4800004EAC8 /* Helpers */,
 				C24D2CE822E888B800451B8B /* Controller */,
@@ -106,6 +109,14 @@
 				C24D2CE922E8892B00451B8B /* LoginViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		C2AC613822F42176004254D8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C2AC613922F4218A004254D8 /* User.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		C2CE8ADE22EC2BD00070DAD7 /* SupportingFiles */ = {
@@ -246,6 +257,7 @@
 				C26E4E3522F1B53800949756 /* UIviewController+Helpers.swift in Sources */,
 				C24D2CEA22E8892B00451B8B /* LoginViewController.swift in Sources */,
 				C24D2CD922E81DE500451B8B /* ViewController.swift in Sources */,
+				C2AC613A22F4218A004254D8 /* User.swift in Sources */,
 				C24D2CD722E81DE500451B8B /* AppDelegate.swift in Sources */,
 				C2EE024622EAE28B0004EAC8 /* UITextField+Helpers.swift in Sources */,
 				C2EE024422EAD49C0004EAC8 /* Constant.swift in Sources */,
